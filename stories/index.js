@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment} from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -143,10 +143,25 @@ storiesOf("Button", module)
         .add("Appointment", () => <Appointment />)
         .add("Header", () => <Header time="12pm" />)
         .add("Empty", () =>  <Empty onAdd={action("onAdd")} />)
-        .add("Show", () =>  <Show interviewer={interviewer} onEdit={action("onEdit")} onDelete={action("onDelete")}/>)
+        .add("Show", () =>  <Show interviewer={interviewer.name} onEdit={action("onEdit")} onDelete={action("onDelete")}/>)
         .add("Confirm", () =>  <Confirm onConfirm={action("onConfirm")} onCancel={action("onCancel")} />)
         .add("Status", () =>  <Status message="Deleting" />)
         .add("Error", () =>  <Error onClose={action("onClose")} message="Could not delete appointment." />)
         .add("Edit Form", () =>  <Form name="" interviewer={interviewer} interviewers={interviewers}  onSave={action("onSave")} onCancel={action("onCancel")}/>)
         .add("Create Form", () =>  <Form interviewers={interviewers}  onSave={action("onSave")} onCancel={action("onCancel")}/>)
-      
+        .add("Appointment Empty", () => (
+          <Fragment>
+            <Appointment id={1} time="12pm" />
+            <Appointment id="last" time="1pm" />
+          </Fragment>
+        ))
+        .add("Appointment Booked", () => (
+          <Fragment>
+            <Appointment
+              id={1}
+              time="12pm"
+              interview={{ student: "Lydia Miller-Jones", interviewer }}
+            />
+            <Appointment id="last" time="1pm" />
+          </Fragment>
+        ))
