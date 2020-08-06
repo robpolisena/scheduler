@@ -10,17 +10,9 @@ export function getAppointmentsForDay(state, day) {
 
   // iterate through appointment array for the given day
   const appt = matchDays[0].appointments 
-  const appts = state.appointments[appt]
   const appoints = [];
   for(let a of appt) {
     appoints.push(state.appointments[a])
   }
   return appoints
 }
- 
-
-  
-  
-
-
-
