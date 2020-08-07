@@ -61,9 +61,7 @@ export default function Application(props) {
       // request to API  to delete appointment 
     function cancelInterview(id, interview = null) {
       return axios.delete(
-        `http://localhost:8001/api/appointments/${id}`,
-        interview
-      );
+        `http://localhost:8001/api/appointments/${id}`,interview);
     }
 
     return (
