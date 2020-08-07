@@ -58,6 +58,13 @@ export default function Application(props) {
         .put(`http://localhost:8001/api/appointments/${id}`, appointment)
         .then(() => setState({ ...state, appointments }));
     }
+      // request to API  to delete appointment 
+    function cancelInterview(id, interview = null) {
+      return axios.delete(
+        `http://localhost:8001/api/appointments/${id}`,
+        interview
+      );
+    }
 
     return (
       <Appointment
@@ -67,6 +74,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewersForDay}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
