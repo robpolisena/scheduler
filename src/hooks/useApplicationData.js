@@ -41,14 +41,22 @@ export function useApplicationData() {
     // request to API to update the appointment with the interview
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, appointment)
-      .then(() => setState({ ...state, appointments }));
+      .then(() => {
+        setState({ ...state, appointments });
+        axios.get("http://localhost:8001/api/days").then((res) => {
+          setState((prev) => ({ ...prev, days: res.data }));
+        });
+      });
   }
   // request to API  to delete appointment
   function cancelInterview(id, interview = null) {
-    return axios.delete(
-      `http://localhost:8001/api/appointments/${id}`,
-      interview
-    );
+    return axios
+      .delete(`http://localhost:8001/api/appointments/${id}`, interview)
+      .then(() => {
+        axios.get("http://localhost:8001/api/days").then((res) => {
+          setState((prev) => ({ ...prev, days: res.data }));
+        });
+      });
   }
 
   return { state, setDay, bookInterview, cancelInterview };
