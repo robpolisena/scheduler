@@ -14,9 +14,9 @@ export function useApplicationData() {
   // use axios to request /api/days and /api/appointments and /api/interviewers
   useEffect(() => {
     Promise.all([
-      Promise.resolve(axios.get("http://localhost:8001/api/days")),
-      Promise.resolve(axios.get("http://localhost:8001/api/appointments")),
-      Promise.resolve(axios.get("http://localhost:8001/api/interviewers")),
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers"),
     ]).then((all) => {
       setState((prev) => ({
         ...prev,
@@ -40,10 +40,10 @@ export function useApplicationData() {
     };
     // request to API to update the appointment with the interview
     return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, appointment)
+      .put(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState({ ...state, appointments });
-        axios.get("http://localhost:8001/api/days").then((res) => {
+        axios.get("/api/days").then((res) => {
           setState((prev) => ({ ...prev, days: res.data }));
         });
       });
@@ -51,9 +51,9 @@ export function useApplicationData() {
   // request to API  to delete appointment
   function cancelInterview(id, interview = null) {
     return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`, interview)
+      .delete(`/api/appointments/${id}`, interview)
       .then(() => {
-        axios.get("http://localhost:8001/api/days").then((res) => {
+        axios.get("/api/days").then((res) => {
           setState((prev) => ({ ...prev, days: res.data }));
         });
       });
