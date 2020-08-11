@@ -40,8 +40,8 @@ export function useApplicationData() {
     };
     // request to API to update the appointment with the interview
     return axios
-      .put(`/api/appointments/${id}`, appointment)
-      .then(() => {
+      .put(`/api/appointments/${id}`, {interview})
+      .then((res) => {
         setState({ ...state, appointments });
         axios.get("/api/days").then((res) => {
           setState((prev) => ({ ...prev, days: res.data }));
