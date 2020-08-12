@@ -7,10 +7,6 @@ export function getAppointmentsForDay(state, day) {
     return [];
   }
 
-  // iterate through appointment array for the given day
-  // apps = dayfound.appointments.map(appointId =>
-  // state.interviewers[appoints])
-
   const appt = matchDays[0].appointments;
   const appoints = [];
   for (let a of appt) {
