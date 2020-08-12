@@ -24,13 +24,13 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  const save = (name, interviewer) => {
+  const save = (name, interviewer, mode) => {
     const interview = {
       student: name,
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, mode)
     .then(() => transition(SHOW))
     .catch((error) =>  transition(ERROR_SAVE, true));
   };
@@ -47,7 +47,7 @@ export default function Appointment(props) {
     data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === SHOW && (
+      {mode === SHOW && props.interview.interviewer && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer.name}
@@ -60,6 +60,7 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onSave={save}
           onCancel={() => back(CREATE)}
+          mode={"create"}
         />
       )}
       {mode === SAVING && <Status message={"Saving"} />}
@@ -75,6 +76,7 @@ export default function Appointment(props) {
         <Form
           onSave={save}
           onCancel={back}
+          mode={"edit"}
           value={props.interview.interviewer.id}
           student={props.interview.student}
           interviewers={props.interviewers}

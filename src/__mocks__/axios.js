@@ -60,7 +60,7 @@ export default {
       return Promise.resolve({
         status: 200,
         statusText: "OK",
-        data: fixtures.days
+        data: JSON.parse(JSON.stringify(fixtures.days))
       });
     }
 
@@ -85,7 +85,16 @@ export default {
   }),
 
   put: jest.fn(url => {
-    if (url === `/api/appointments/1`) {
+    if (url.startsWith(`/api/appointments/`)) {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+      });
+    }
+  }),
+
+  delete: jest.fn(url => {
+    if (url.startsWith(`/api/appointments/`)) {
       return Promise.resolve({
         status: 204,
         statusText: "No Content",

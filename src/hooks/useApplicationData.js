@@ -28,8 +28,8 @@ export function useApplicationData() {
   }, []);
 
   // function to make a new interview
-  function bookInterview(id, interview) {
-    console.log(id, interview);
+  function bookInterview(id, interview, mode) {
+   // console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -38,24 +38,36 @@ export function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-    // request to API to update the appointment with the interview
-    return axios
-      .put(`/api/appointments/${id}`, {interview})
-      .then((res) => {
-        setState({ ...state, appointments });
-        axios.get("/api/days").then((res) => {
-          setState((prev) => ({ ...prev, days: res.data }));
+
+    const currentDayRemoveSpot = state.days.map((day) => {
+      if(day.name === state.day && mode === 'create') {
+        return {...day, spots: day.spots - 1}
+      } 
+       else {
+        return day
+      }
+     })
+     
+     // request to API to update the appointment with the interview
+     return axios
+     .put(`/api/appointments/${id}`, {interview})
+     .then((res) => {
+       setState({ ...state, appointments, days: currentDayRemoveSpot });
         });
-      });
-  }
-  // request to API  to delete appointment
-  function cancelInterview(id, interview = null) {
+      }
+      // request to API  to delete appointment
+      function cancelInterview(id, interview = null) {
+                 const currentDayAddSpot = state.days.map((day) => {
+                  if(day.name === state.day) {
+                    return {...day, spots: day.spots + 1}
+                  } else {
+                    return day
+                  }
+                 })
     return axios
       .delete(`/api/appointments/${id}`, interview)
-      .then(() => {
-        axios.get("/api/days").then((res) => {
-          setState((prev) => ({ ...prev, days: res.data }));
-        });
+      .then((res) => {
+      setState({...state, days: currentDayAddSpot })
       });
   }
 
