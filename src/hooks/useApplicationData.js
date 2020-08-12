@@ -29,7 +29,6 @@ export function useApplicationData() {
 
   // function to make a new interview
   function bookInterview(id, interview, mode) {
-    // console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
