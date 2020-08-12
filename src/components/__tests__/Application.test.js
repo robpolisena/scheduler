@@ -18,7 +18,6 @@ import {
 import Application from "components/Application";
 
 afterEach(cleanup);
-
 describe("Application", () => {
   it("defaults to Monday and changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
@@ -34,8 +33,6 @@ describe("Application", () => {
     const { container, debug } = render(<Application />);
 
     await waitForElement(() => getByText(container, "Archie Cohen"));
-
-    //const appointments = getAllByTestId(container, "appointment");
 
     const appointment = getAllByTestId(container, "appointment")[0];
 
@@ -155,22 +152,25 @@ describe("Application", () => {
 
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
-    const appointment = getAllByTestId(container, "appointment").find((appointment) => queryByText(appointment, "Archie Cohen"));
-    
+    const appointment = getAllByTestId(
+      container,
+      "appointment"
+    ).find((appointment) => queryByText(appointment, "Archie Cohen"));
+
     fireEvent.click(getByAltText(appointment, "Delete"));
-    
-    expect(getByText(appointment, "Delete the appointment?")).toBeInTheDocument();
-    
+
+    expect(
+      getByText(appointment, "Delete the appointment?")
+    ).toBeInTheDocument();
+
     axios.delete.mockRejectedValueOnce();
-    
+
     fireEvent.click(queryByText(appointment, "Confirm"));
-    
+
     expect(getByText(appointment, "Deleting")).toBeInTheDocument();
 
-    await waitForElement(() => getByText(appointment,"Error"));
+    await waitForElement(() => getByText(appointment, "Error"));
 
     expect(getByText(appointment, "Error")).toBeInTheDocument();
-
   });
-
 });

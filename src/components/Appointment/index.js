@@ -3,7 +3,7 @@ import "components/Appointment/styles.scss";
 import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
 import Show from "components/Appointment/Show";
-import { useVisualMode } from "hooks/useVisualMode";
+import useVisualMode from "hooks/useVisualMode";
 import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
@@ -30,21 +30,22 @@ export default function Appointment(props) {
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview, mode)
-    .then(() => transition(SHOW))
-    .catch((error) =>  transition(ERROR_SAVE, true));
+    props
+      .bookInterview(props.id, interview, mode)
+      .then(() => transition(SHOW))
+      .catch((error) => transition(ERROR_SAVE, true));
   };
 
   const cancelAppt = () => {
     transition(DELETE, true);
-    props.cancelInterview(props.id)
-    .then(() => transition(EMPTY))
-    .catch(error => transition(ERROR_DELETE, true));
+    props
+      .cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch((error) => transition(ERROR_DELETE, true));
   };
 
   return (
-    <article className="appointment"
-    data-testid="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && props.interview.interviewer && (
@@ -83,11 +84,15 @@ export default function Appointment(props) {
         />
       )}
       {mode === ERROR_SAVE && (
-        <Error message="There was an error when trying to save.  Please try again later" onClose={back} />
+        <Error
+          message="There was an error when trying to save.  Please try again later"
+          onClose={back}
+        />
       )}
       {mode === ERROR_DELETE && (
         <Error
-          message="There was an error when trying to cancel your appointment.  Please try again Later" onClose={back}
+          message="There was an error when trying to cancel your appointment.  Please try again Later"
+          onClose={back}
         />
       )}
     </article>
