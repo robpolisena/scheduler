@@ -15,6 +15,8 @@ The app is programmed to run on https://localhost:8000 - use command `npm start`
 
 !["New Appointment"](https://github.com/robpolisena/scheduler/blob/master/docs/new-appointment.png?raw=true)
 
+***
+
 ### Running Webpack Development Server
 
 ```sh
